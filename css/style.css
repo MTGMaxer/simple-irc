@@ -1,0 +1,19 @@
+#main {
+    margin: 8px;
+}
+
+#chatbox {
+    box-sizing: border-box;
+    height: 90vh;
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 7px;
+    margin-bottom: 15px;
+}
+
+#msginput {
+    box-sizing: border-box;
+    width: 100%;
+    height: 5vh;
+    font-size: large;
+}
