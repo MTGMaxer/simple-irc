@@ -9,6 +9,7 @@
     border: 1px solid black;
     border-radius: 7px;
     margin-bottom: 15px;
+    padding: 5px;
 }
 
 #msginput {
@@ -16,4 +17,9 @@
     width: 100%;
     height: 5vh;
     font-size: large;
+}
+
+.message {
+    margin-left: 5px;
+    margin-top: 3px;
 }

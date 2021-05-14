@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     function latestMsg($db)
     {
-        $query = 'SELECT * FROM irc ORDER BY id DESC LIMIT 1';
+        $query = 'SELECT * FROM irc_sys ORDER BY id DESC LIMIT 1';
         $res  = $db->query($query);
         $msg = $res->fetch_assoc();
         return $msg;
