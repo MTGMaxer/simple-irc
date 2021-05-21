@@ -8,16 +8,18 @@ $(() => {
     input.addEventListener('keydown', (e) => {
         let message = e.target.value;
         if (e.code === 'Enter' && nickname && message) {
-            $.ajax({
-                url: '/irc/send.php',
+            fetch('/irc/send.php', {
                 method: 'POST',
-                data: {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
                     nickname,
                     message,
                     color,
-                }
+                }),
             });
-            if (message === 'quit') {
+            if (message === '/quit') {
                 active = false;
             } else if (/^\/color ([0-9]|[a-f]|[A-F]){6}$/.test(message)) {
                 color = message.substring(message.indexOf(' ') + 1);
@@ -55,6 +57,7 @@ $(() => {
         msg.appendChild(msgTime);
         msg.appendChild(messageContent);
         chatbox.appendChild(msg);
+        msg.scrollIntoView();
     }
 
     function addSystemMessage({ type, nickname, event_value, time }) {
@@ -69,7 +72,7 @@ $(() => {
                 break;
 
             case 'COLOR_CHANGE':
-                messageText = `SYSTEM: Użytkownik ${nickname} zmienił kolor na ${event_value}.`;
+                messageText = `SYSTEM: Użytkownik ${nickname} zmienił kolor na <span style="color: #${event_value};">${event_value}</span>.`;
                 break;
 
             case 'NICKNAME_CHANGE':
@@ -82,44 +85,39 @@ $(() => {
         }
 
         let messageContent = document.createElement('span');
-        messageContent.innerText = `${messageText}`;
+        messageContent.innerHTML = `${messageText}`;
         msg.appendChild(messageContent);
         chatbox.appendChild(msg);
+        msg.scrollIntoView();
     }
 
-    function pollMessage() {
-        $.ajax({
-            url: '/irc/ajax.php',
+
+    async function pollMessage() {
+        let response = await fetch('/irc/ajax.php', {
             method: 'POST',
-            success(data) {
-                if (data) {
-                    addMessage(JSON.parse(data));
-                }
-            },
-            complete() {
-                if (active) {
-                    pollMessage();
-                }
-            }
         });
+        try {
+            let jsonData = await response.json();
+            addMessage(jsonData);
+        } catch (e) {
+        }
+        if (active) {
+            pollMessage();
+        }
     }
 
-    function pollSystemMessage() {
-        $.ajax({
-            url: '/irc/ajax_system.php',
+    async function pollSystemMessage() {
+        let response = await fetch('/irc/ajax_system.php', {
             method: 'POST',
-            success(data) {
-                if (data) {
-                    console.log(data);
-                    addSystemMessage(JSON.parse(data));
-                }
-            },
-            complete() {
-                if (active) {
-                    pollSystemMessage();
-                }
-            }
         });
+        try {
+            let jsonData = await response.json();
+            addSystemMessage(jsonData);
+        } catch (e) {
+        }
+        if (active) {
+            pollSystemMessage();
+        }
     }
 
     pollMessage();

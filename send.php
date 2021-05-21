@@ -1,15 +1,18 @@
 <?php
 define('DB_MSG_LIMIT',  10);
 
-if (isset($_POST['nickname'], $_POST['message'])) {
+$inputJson = file_get_contents('php://input');
+$input = json_decode($inputJson, true);
+
+if (isset($input['nickname'], $input['message'])) {
     $db = new mysqli('localhost', 'root', '', 'irc');
     $err = $db->connect_error;
     if ($err) {
         die($err);
     }
-    $nickname =  $_POST['nickname'];
-    $message = $_POST['message'];
-    $color = $_POST['color'];
+    $nickname =  $input['nickname'];
+    $message = $input['message'];
+    $color = $input['color'];
 
     $dbname = 'irc';
     $stmt;
