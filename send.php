@@ -5,7 +5,14 @@ $inputJson = file_get_contents('php://input');
 $input = json_decode($inputJson, true);
 
 if (isset($input['nickname'], $input['message'])) {
-    $db = new mysqli('localhost', 'root', '', 'irc');
+    $dbUrl = parse_url(getenv("CLEARDB_DATABASE_URL"));
+
+    $server = $dbUrl["host"];
+    $username = $dbUrl["user"];
+    $password = $dbUrl["pass"];
+    $dbName = substr($dbUrl["path"], 1);
+
+    $db = new mysqli($server, $username, $password, $dbName);
     $err = $db->connect_error;
     if ($err) {
         die($err);

@@ -1,7 +1,13 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // TODO db user
-    $db = new mysqli('localhost', 'root', '', 'irc');
+    $dbUrl = parse_url(getenv("CLEARDB_DATABASE_URL"));
+
+    $server = $dbUrl["host"];
+    $username = $dbUrl["user"];
+    $password = $dbUrl["pass"];
+    $dbName = substr($dbUrl["path"], 1);
+
+    $db = new mysqli($server, $username, $password, $dbName);
     $err = $db->connect_error;
     if ($err) {
         die($err);
