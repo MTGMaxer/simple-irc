@@ -31,6 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo json_encode($newMsg);
             break;
         }
-        usleep(100000);
+        sleep(1);
     }
 }
