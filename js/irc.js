@@ -19,6 +19,7 @@ $(() => {
                     color,
                 }),
             });
+            active = true;
             if (message === '/quit') {
                 active = false;
             } else if (/^\/color ([0-9]|[a-f]|[A-F]){6}$/.test(message)) {
