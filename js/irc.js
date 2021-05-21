@@ -8,7 +8,7 @@ $(() => {
     input.addEventListener('keydown', (e) => {
         let message = e.target.value;
         if (e.code === 'Enter' && nickname && message) {
-            fetch('/irc/send.php', {
+            fetch('/send.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -93,7 +93,7 @@ $(() => {
 
 
     async function pollMessage() {
-        let response = await fetch('/irc/ajax.php', {
+        let response = await fetch('/ajax.php', {
             method: 'POST',
         });
         try {
@@ -107,7 +107,7 @@ $(() => {
     }
 
     async function pollSystemMessage() {
-        let response = await fetch('/irc/ajax_system.php', {
+        let response = await fetch('/ajax_system.php', {
             method: 'POST',
         });
         try {
