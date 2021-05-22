@@ -1,5 +1,6 @@
 <?php
 define('DB_MSG_LIMIT',  10);
+define('CLEAR_INTERVAL', 5);
 
 $inputJson = file_get_contents('php://input');
 $input = json_decode($inputJson, true);
@@ -55,7 +56,7 @@ if (isset($input['nickname'], $input['message'])) {
     $cnt = $db->query('SELECT id FROM ' . $dbname . ' ORDER BY id DESC LIMIT 1');
     $row = $cnt->fetch_assoc();
     $id = $row['id'];
-    if ($id % DB_MSG_LIMIT === 0) {
+    if ($id % CLEAR_INTERVAL === 0) {
         $min = $id - (DB_MSG_LIMIT - 1);
         $db->query('DELETE FROM ' . $dbname . ' WHERE id < ' . $min);
     }
