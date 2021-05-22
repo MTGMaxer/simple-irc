@@ -7,7 +7,7 @@ $(() => {
 
     input.addEventListener('keydown', (e) => {
         let message = e.target.value;
-        if (e.code === 'Enter' && nickname && message) {
+        if (e.key === 'Enter' && nickname && message) {
             fetch('/send.php', {
                 method: 'POST',
                 headers: {
@@ -123,4 +123,12 @@ $(() => {
 
     pollMessage();
     pollSystemMessage();
+
+
+    let welcome = document.createElement('div');
+    welcome.classList.add('message');
+    let welcomeMsg = document.createElement('span');
+    welcomeMsg.innerHTML = 'Witaj na czacie! Dostępne komendy: /nick, /color, /quit';
+    welcome.appendChild(welcomeMsg);
+    chatbox.appendChild(welcome);
 });
