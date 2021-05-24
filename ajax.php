@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $msg = latestMsg($db);
     $time = time();
 
-    while (time() - $time < 5) {
+    while (time() - $time <= 5) {
         $newMsg = latestMsg($db);
         if ($newMsg && (($newMsg && !$msg) || ($newMsg['id'] !== $msg['id']))) {
             unset($newMsg['id']);
